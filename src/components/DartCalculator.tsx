@@ -49,7 +49,7 @@ export function DartCalculator({ onTurnComplete, currentScore, doubleOut, player
   };
 
   const handleBull = (value: 25 | 50) => {
-    const label = value === 50 ? "Bull" : "25";
+    const label = value === 50 ? "Bull (50)" : "Outer (25)";
     addThrow(value, "single", label);
   };
 
