@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { usePlayers } from "@/hooks/usePlayers";
-import { usePlayerStats, usePlayerGames } from "@/hooks/useGames";
+import { usePlayerStats, usePlayerGames, usePlayerDetailedStats } from "@/hooks/useGames";
 import { CreatePlayerDialog } from "@/components/CreatePlayerDialog";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Users } from "lucide-react";
@@ -93,6 +93,7 @@ function PlayerProfile({
   onBack: () => void;
 }) {
   const { data: games, isLoading } = usePlayerGames(player.id);
+  const { data: detailed } = usePlayerDetailedStats(player.id);
   const totalGames = (stats?.wins || 0) + (stats?.losses || 0);
 
   return (
@@ -117,6 +118,21 @@ function PlayerProfile({
               <p className="text-xl font-bold font-mono">{totalGames}</p>
               <p className="text-[10px] text-muted-foreground">Łącznie</p>
             </div>
+          </div>
+        </div>
+
+        <div className="glass-card p-4 grid grid-cols-3 gap-3 text-center">
+          <div>
+            <p className="text-lg font-bold font-mono text-primary">{detailed?.avg3darts ?? "—"}</p>
+            <p className="text-[10px] text-muted-foreground">Śr. na 3 lotki</p>
+          </div>
+          <div>
+            <p className="text-lg font-bold font-mono text-primary">{detailed?.highestCheckout || "—"}</p>
+            <p className="text-[10px] text-muted-foreground">Najw. checkout</p>
+          </div>
+          <div>
+            <p className="text-lg font-bold font-mono text-primary">{detailed?.count180 ?? 0}</p>
+            <p className="text-[10px] text-muted-foreground">× 180</p>
           </div>
         </div>
 
