@@ -1,6 +1,7 @@
 import { usePlayers } from "@/hooks/usePlayers";
 import { CreatePlayerDialog } from "@/components/CreatePlayerDialog";
 import { GameSetupForm } from "@/components/GameSetupForm";
+import { UserMenu } from "@/components/UserMenu";
 import { Button } from "@/components/ui/button";
 import { Target, UserPlus } from "lucide-react";
 
@@ -19,7 +20,10 @@ export default function Index() {
   return (
     <div className="page-container">
       <div className="page-content space-y-4">
-        <div className="text-center space-y-1 py-2">
+        <div className="text-center space-y-1 py-2 relative">
+          <div className="absolute right-0 top-2">
+            <UserMenu />
+          </div>
           <div className="inline-flex items-center gap-2 text-primary">
             <Target className="w-7 h-7" />
           </div>
