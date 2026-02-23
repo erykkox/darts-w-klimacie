@@ -40,6 +40,12 @@ export function useCreateGame() {
       player2_id?: string;
       mode: string;
       double_out: boolean;
+      in_mode?: string;
+      out_mode?: string;
+      legs_target?: number;
+      sets_target?: number;
+      legs_mode?: string;
+      sets_mode?: string;
     }) => {
       const { data, error } = await supabase
         .from("games")
@@ -48,6 +54,12 @@ export function useCreateGame() {
           player2_id: params.player2_id || null,
           mode: params.mode,
           double_out: params.double_out,
+          in_mode: params.in_mode || "straight_in",
+          out_mode: params.out_mode || "straight_out",
+          legs_target: params.legs_target || 1,
+          sets_target: params.sets_target || 1,
+          legs_mode: params.legs_mode || "first_to",
+          sets_mode: params.sets_mode || "first_to",
         })
         .select()
         .single();

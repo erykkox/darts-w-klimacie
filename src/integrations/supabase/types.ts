@@ -70,9 +70,15 @@ export type Database = {
           double_out: boolean
           finished_at: string | null
           id: string
+          in_mode: string
+          legs_mode: string
+          legs_target: number
           mode: string
+          out_mode: string
           player1_id: string
           player2_id: string | null
+          sets_mode: string
+          sets_target: number
           started_at: string
           winner_id: string | null
         }
@@ -80,9 +86,15 @@ export type Database = {
           double_out?: boolean
           finished_at?: string | null
           id?: string
+          in_mode?: string
+          legs_mode?: string
+          legs_target?: number
           mode?: string
+          out_mode?: string
           player1_id: string
           player2_id?: string | null
+          sets_mode?: string
+          sets_target?: number
           started_at?: string
           winner_id?: string | null
         }
@@ -90,9 +102,15 @@ export type Database = {
           double_out?: boolean
           finished_at?: string | null
           id?: string
+          in_mode?: string
+          legs_mode?: string
+          legs_target?: number
           mode?: string
+          out_mode?: string
           player1_id?: string
           player2_id?: string | null
+          sets_mode?: string
+          sets_target?: number
           started_at?: string
           winner_id?: string | null
         }
