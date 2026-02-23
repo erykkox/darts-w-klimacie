@@ -102,7 +102,7 @@ export default function GamePage() {
 
   if (!state) {
     return (
-      <div className="min-h-screen pb-20 flex items-center justify-center">
+      <div className="page-container flex items-center justify-center">
         <div className="text-center space-y-4">
           <p className="text-muted-foreground">Brak aktywnej gry.</p>
           <Button onClick={() => navigate("/")} variant="outline" className="gap-2">
@@ -115,23 +115,23 @@ export default function GamePage() {
 
   if (winner) {
     return (
-      <div className="min-h-screen pb-20 flex items-center justify-center px-4">
-        <div className="glass-card p-8 text-center space-y-6 max-w-sm w-full animate-slide-up">
-          <Trophy className="w-16 h-16 text-dart-gold mx-auto animate-pulse-glow rounded-full p-2" />
+      <div className="page-container flex items-center justify-center">
+        <div className="glass-card p-6 sm:p-8 text-center space-y-5 max-w-sm w-full animate-slide-up">
+          <Trophy className="w-14 h-14 text-dart-gold mx-auto animate-pulse-glow rounded-full p-2" />
           <div>
-            <p className="text-sm text-muted-foreground font-mono uppercase">Zwycięzca</p>
-            <h2 className="text-4xl font-extrabold font-mono text-primary mt-1">
+            <p className="text-xs text-muted-foreground font-mono uppercase">Zwycięzca</p>
+            <h2 className="text-3xl sm:text-4xl font-extrabold font-mono text-primary mt-1">
               {playerNames[winner]}
             </h2>
           </div>
-          <p className="text-muted-foreground">
+          <p className="text-muted-foreground text-sm">
             Gra zakończona w {turnCount} {turnCount === 1 ? "turze" : "turach"}
           </p>
-          <div className="flex gap-3">
-            <Button onClick={() => navigate("/", { replace: true })} variant="outline" className="flex-1 gap-2 h-12">
-              <RotateCcw className="w-4 h-4" /> Zagraj ponownie
+          <div className="flex gap-2">
+            <Button onClick={() => navigate("/", { replace: true })} variant="outline" className="flex-1 gap-2 h-11 text-sm">
+              <RotateCcw className="w-4 h-4" /> Ponownie
             </Button>
-            <Button onClick={() => navigate("/")} className="flex-1 gap-2 h-12">
+            <Button onClick={() => navigate("/")} className="flex-1 gap-2 h-11 text-sm">
               <Home className="w-4 h-4" /> Menu
             </Button>
           </div>
@@ -141,34 +141,38 @@ export default function GamePage() {
   }
 
   return (
-    <div className="min-h-screen pb-20">
-      {/* Scoreboard */}
-      <div className="flex border-b border-border">
+    <div className="flex flex-col min-h-[100dvh] pb-[var(--bottom-nav-height)]">
+      {/* Scoreboard - compact */}
+      <div className="flex border-b border-border shrink-0">
         {playerIds.map((pid, idx) => (
           <div
             key={pid}
-            className={`flex-1 p-4 text-center transition-all ${
+            className={`flex-1 py-3 px-2 text-center transition-all ${
               idx === activePlayerIndex ? "player-active" : "player-inactive"
             } ${idx > 0 ? "border-l border-border" : ""}`}
           >
-            <p className="text-xs text-muted-foreground font-mono uppercase truncate">
+            <p className="text-[10px] text-muted-foreground font-mono uppercase truncate">
               {playerNames[pid]}
             </p>
-            <p className="dart-score mt-1">{scores[pid]}</p>
+            <p className="dart-score mt-0.5">{scores[pid]}</p>
           </div>
         ))}
       </div>
 
-      <div className="text-center py-2 border-b border-border">
-        <span className="text-xs text-muted-foreground font-mono">Tura {turnCount}</span>
+      {/* Turn counter */}
+      <div className="text-center py-1.5 border-b border-border shrink-0">
+        <span className="text-[10px] text-muted-foreground font-mono">Tura {turnCount}</span>
       </div>
 
-      <DartCalculator
-        onTurnComplete={handleTurnComplete}
-        currentScore={scores[activePlayerId]}
-        doubleOut={state.doubleOut}
-        playerName={playerNames[activePlayerId]}
-      />
+      {/* Calculator - takes remaining space */}
+      <div className="flex-1 flex flex-col justify-end">
+        <DartCalculator
+          onTurnComplete={handleTurnComplete}
+          currentScore={scores[activePlayerId]}
+          doubleOut={state.doubleOut}
+          playerName={playerNames[activePlayerId]}
+        />
+      </div>
     </div>
   );
 }

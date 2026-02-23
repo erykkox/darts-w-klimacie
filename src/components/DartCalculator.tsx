@@ -1,6 +1,6 @@
 import { useState, useCallback } from "react";
 import { Button } from "@/components/ui/button";
-import { X } from "lucide-react";
+import { Undo2 } from "lucide-react";
 
 type Modifier = "single" | "double" | "triple";
 
@@ -38,7 +38,7 @@ export function DartCalculator({ onTurnComplete, currentScore, doubleOut, player
       setTimeout(() => {
         onTurnComplete(updated);
         setThrows([]);
-      }, 300);
+      }, 400);
     }
   }, [throws, onTurnComplete]);
 
@@ -49,7 +49,7 @@ export function DartCalculator({ onTurnComplete, currentScore, doubleOut, player
   };
 
   const handleBull = (value: 25 | 50) => {
-    const label = value === 50 ? "Bull" : "Outer";
+    const label = value === 50 ? "Bull" : "25";
     addThrow(value, "single", label);
   };
 
@@ -73,20 +73,20 @@ export function DartCalculator({ onTurnComplete, currentScore, doubleOut, player
   };
 
   return (
-    <div className="flex flex-col gap-3 p-3">
+    <div className="flex flex-col gap-2 p-2 sm:p-3">
       {/* Current throws summary */}
-      <div className="glass-card p-3 space-y-2">
+      <div className="glass-card p-2.5 space-y-1.5">
         <div className="flex items-center justify-between">
-          <span className="text-sm text-muted-foreground font-mono">Tura: {playerName}</span>
-          <span className="font-mono text-lg font-bold">
+          <span className="text-xs text-muted-foreground font-mono truncate">{playerName}</span>
+          <span className="font-mono text-sm font-bold">
             {currentScore} → <span className={remainingAfter < 0 ? "text-destructive" : "text-primary"}>{remainingAfter}</span>
           </span>
         </div>
-        <div className="flex gap-2 items-center min-h-[2.5rem]">
+        <div className="flex gap-1.5 items-center">
           {[0, 1, 2].map((i) => (
             <div
               key={i}
-              className={`flex-1 text-center py-1.5 rounded-md font-mono text-lg font-bold ${
+              className={`flex-1 text-center py-1 rounded-md font-mono text-base font-bold ${
                 throws[i]
                   ? "bg-primary/20 text-primary border border-primary/30"
                   : i === throws.length
@@ -97,19 +97,19 @@ export function DartCalculator({ onTurnComplete, currentScore, doubleOut, player
               {throws[i]?.label || (i === throws.length ? "?" : "—")}
             </div>
           ))}
-          <div className="text-center font-mono text-xl font-extrabold min-w-[3rem]">
+          <div className="font-mono text-lg font-extrabold min-w-[2.5rem] text-center">
             = {turnScore}
           </div>
         </div>
       </div>
 
       {/* Modifier toggles */}
-      <div className="flex gap-2">
+      <div className="flex gap-1.5">
         {(["single", "double", "triple"] as Modifier[]).map((mod) => (
           <button
             key={mod}
             onClick={() => setModifier(mod)}
-            className={`dart-btn-modifier flex-1 text-sm font-bold uppercase ${
+            className={`dart-btn-modifier flex-1 text-xs font-bold uppercase ${
               modifier === mod
                 ? mod === "double"
                   ? "bg-dart-blue/20 text-dart-blue border-dart-blue"
@@ -120,18 +120,18 @@ export function DartCalculator({ onTurnComplete, currentScore, doubleOut, player
             }`}
             disabled={throws.length >= 3}
           >
-            {mod === "single" ? "Single" : mod === "double" ? "Double" : "Triple"}
+            {mod === "single" ? "S" : mod === "double" ? "D×2" : "T×3"}
           </button>
         ))}
       </div>
 
-      {/* Number grid */}
-      <div className="grid grid-cols-5 gap-1.5">
+      {/* Number grid - 5 columns, compact */}
+      <div className="grid grid-cols-5 gap-1">
         {numbers.map((n) => (
           <button
             key={n}
             onClick={() => handleNumber(n)}
-            className="dart-btn-number"
+            className="dart-btn-number text-sm"
             disabled={throws.length >= 3}
           >
             {modifier === "double" ? `D${n}` : modifier === "triple" ? `T${n}` : n}
@@ -139,26 +139,26 @@ export function DartCalculator({ onTurnComplete, currentScore, doubleOut, player
         ))}
       </div>
 
-      {/* Special buttons */}
-      <div className="grid grid-cols-4 gap-1.5">
-        <button onClick={() => handleBull(25)} className="dart-btn-bull" disabled={throws.length >= 3}>
-          Outer 25
+      {/* Special buttons row */}
+      <div className="grid grid-cols-4 gap-1">
+        <button onClick={() => handleBull(25)} className="dart-btn-bull text-sm" disabled={throws.length >= 3}>
+          25
         </button>
-        <button onClick={() => handleBull(50)} className="dart-btn-bull" disabled={throws.length >= 3}>
-          Bull 50
+        <button onClick={() => handleBull(50)} className="dart-btn-bull text-sm" disabled={throws.length >= 3}>
+          Bull
         </button>
-        <button onClick={handleMiss} className="dart-btn-miss" disabled={throws.length >= 3}>
+        <button onClick={handleMiss} className="dart-btn-miss text-sm" disabled={throws.length >= 3}>
           Miss
         </button>
         <button onClick={undoLast} className="dart-btn bg-secondary text-muted-foreground border border-border hover:bg-secondary/80" disabled={throws.length === 0}>
-          <X className="w-4 h-4 mx-auto" />
+          <Undo2 className="w-4 h-4 mx-auto" />
         </button>
       </div>
 
       {/* Submit early button */}
       {throws.length > 0 && throws.length < 3 && (
-        <Button onClick={submitEarly} className="dart-btn-submit h-12">
-          Zatwierdź turę ({throws.length}/3 rzutów)
+        <Button onClick={submitEarly} className="dart-btn-submit h-10">
+          Zatwierdź ({throws.length}/3)
         </Button>
       )}
     </div>

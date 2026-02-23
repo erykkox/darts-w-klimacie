@@ -49,6 +49,8 @@
     --sidebar-accent-foreground: 40 10% 85%;
     --sidebar-border: 220 15% 18%;
     --sidebar-ring: 142 60% 45%;
+
+    --bottom-nav-height: 4rem;
   }
 }
 
@@ -61,6 +63,8 @@
     @apply bg-background text-foreground font-sans;
     font-family: 'Inter', sans-serif;
     -webkit-tap-highlight-color: transparent;
+    -webkit-font-smoothing: antialiased;
+    overscroll-behavior: none;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -69,15 +73,22 @@
 }
 
 @layer components {
+  .page-container {
+    @apply min-h-[100dvh] px-4 pt-4 pb-[calc(var(--bottom-nav-height)+1.5rem)];
+  }
+
+  .page-content {
+    @apply max-w-lg mx-auto;
+  }
+
   .dart-score {
     font-family: 'JetBrains Mono', monospace;
-    @apply text-5xl font-extrabold tracking-tighter;
+    @apply text-4xl sm:text-5xl font-extrabold tracking-tighter leading-none;
   }
 
   .dart-btn {
-    @apply rounded-lg font-mono font-bold text-lg transition-all duration-150 active:scale-95 select-none;
-    min-height: 3.25rem;
-    min-width: 3.25rem;
+    @apply rounded-lg font-mono font-bold text-base transition-all duration-100 active:scale-95 select-none touch-manipulation;
+    min-height: 2.75rem;
   }
 
   .dart-btn-number {
@@ -97,7 +108,7 @@
   }
 
   .dart-btn-submit {
-    @apply dart-btn bg-primary text-primary-foreground hover:bg-primary/90 font-bold text-xl;
+    @apply dart-btn bg-primary text-primary-foreground hover:bg-primary/90 font-bold text-lg;
   }
 
   .player-active {
@@ -105,10 +116,16 @@
   }
 
   .player-inactive {
-    @apply opacity-60;
+    @apply opacity-50;
   }
 
   .glass-card {
     @apply bg-card/80 backdrop-blur-sm border border-border rounded-xl;
+  }
+}
+
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
   }
 }
