@@ -132,3 +132,35 @@ export function usePlayerStats() {
     },
   });
 }
+
+export function usePlayerDetailedStats(playerId: string) {
+  return useQuery({
+    queryKey: ["player-detailed-stats", playerId],
+    queryFn: async () => {
+      const { data: turns, error } = await supabase
+        .from("game_turns")
+        .select("turn_score, score_after")
+        .eq("player_id", playerId);
+      if (error) throw error;
+
+      if (!turns || turns.length === 0) {
+        return { avg3darts: 0, highestCheckout: 0, count180: 0 };
+      }
+
+      const nonBustTurns = turns.filter((t) => t.turn_score > 0);
+      const avg3darts =
+        nonBustTurns.length > 0
+          ? nonBustTurns.reduce((sum, t) => sum + t.turn_score, 0) / nonBustTurns.length
+          : 0;
+
+      const checkouts = turns.filter((t) => t.score_after === 0 && t.turn_score > 0);
+      const highestCheckout =
+        checkouts.length > 0 ? Math.max(...checkouts.map((t) => t.turn_score)) : 0;
+
+      const count180 = turns.filter((t) => t.turn_score === 180).length;
+
+      return { avg3darts: Math.round(avg3darts * 10) / 10, highestCheckout, count180 };
+    },
+    enabled: !!playerId,
+  });
+}
