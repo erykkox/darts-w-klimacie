@@ -49,7 +49,7 @@ export function DartCalculator({ onTurnComplete, currentScore, doubleOut, player
   };
 
   const handleBull = (value: 25 | 50) => {
-    const label = value === 50 ? "Bull (50)" : "Outer (25)";
+    const label = value === 50 ? "Bull" : "25";
     addThrow(value, "single", label);
   };
 
@@ -142,10 +142,10 @@ export function DartCalculator({ onTurnComplete, currentScore, doubleOut, player
       {/* Special buttons row */}
       <div className="grid grid-cols-4 gap-1">
         <button onClick={() => handleBull(25)} className="dart-btn-bull text-sm" disabled={throws.length >= 3}>
-          25
+          Outer (25)
         </button>
         <button onClick={() => handleBull(50)} className="dart-btn-bull text-sm" disabled={throws.length >= 3}>
-          Bull
+          Bull (50)
         </button>
         <button onClick={handleMiss} className="dart-btn-miss text-sm" disabled={throws.length >= 3}>
           Miss
